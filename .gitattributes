@@ -1,0 +1,8 @@
+# Normalise line endings in the repository; Windows checkouts get CRLF back.
+* text=auto
+*.cs     text diff=csharp
+*.sln    text eol=crlf
+*.csproj text eol=crlf
+*.png    binary
+*.jpg    binary
+*.xlsx   binary
