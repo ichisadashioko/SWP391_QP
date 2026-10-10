@@ -1,0 +1,9 @@
+{
+  // VS Code offers to install these when someone opens the repository.
+  "recommendations": [
+    "ms-dotnettools.csdevkit",
+    "ms-dotnettools.csharp",
+    "oxc.oxc-vscode",
+    "ms-mssql.mssql"
+  ]
+}

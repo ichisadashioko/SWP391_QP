@@ -1,0 +1,57 @@
+{
+  // Tasks used by launch.json. Each can also be run by hand: Terminal → Run Task…
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build: api",
+      "detail": "dotnet build of the API and the projects it references",
+      "type": "process",
+      "command": "dotnet",
+      "args": [
+        "build",
+        "${workspaceFolder}/src/QuizPractice.Api/QuizPractice.Api.csproj",
+        "-nologo",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile",
+      "group": { "kind": "build", "isDefault": true },
+      "presentation": { "reveal": "silent", "clear": true }
+    },
+    {
+      "label": "web: dev",
+      "detail": "Vite dev server on http://localhost:5173, runs in the background",
+      "type": "npm",
+      "script": "dev",
+      "path": "quizpractice-web",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "vite",
+        "pattern": { "regexp": "^\\s*(error)\\s+(.*)$", "severity": 1, "message": 2 },
+        // The task counts as ready once Vite prints its Local address.
+        "background": { "activeBegins": true, "beginsPattern": "VITE", "endsPattern": "Local" }
+      },
+      "presentation": { "reveal": "silent", "panel": "dedicated" }
+    },
+    {
+      "label": "prepare: api + web",
+      "detail": "Builds the API and starts Vite at the same time",
+      "dependsOn": ["build: api", "web: dev"],
+      "dependsOrder": "parallel",
+      "problemMatcher": []
+    },
+    {
+      "label": "web: stop",
+      "detail": "Stops whatever listens on port 5173 (the Vite dev server)",
+      "type": "process",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-Command",
+        "Get-NetTCPConnection -LocalPort 5173 -State Listen -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess -Unique | ForEach-Object { Stop-Process -Id $_ -Force -ErrorAction SilentlyContinue }"
+      ],
+      "problemMatcher": [],
+      "presentation": { "reveal": "never" }
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  // Run and Debug (Ctrl+Shift+D): pick a configuration, press F5. Shift+F5 stops.
+  // Breakpoints work in the C# code. For the React code use the browser's own
+  // developer tools (F12 → Sources), which work in any browser.
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "API + Web",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "prepare: api + web",
+      "postDebugTask": "web: stop",
+      "program": "${workspaceFolder}/src/QuizPractice.Api/bin/Debug/net10.0/QuizPractice.Api.dll",
+      "cwd": "${workspaceFolder}/src/QuizPractice.Api",
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:5031"
+      },
+      "console": "internalConsole",
+      // The app runs on plain http://localhost, so no HTTPS development certificate is needed.
+      "checkForDevCert": false,
+      // Once the API is listening, open the web app in the default browser.
+      "serverReadyAction": {
+        "action": "openExternally",
+        // VS Code fills %s with the captured text: the host, so the URL keeps port 5173.
+        "pattern": "Now listening on: http://(localhost):\\d+",
+        "uriFormat": "http://%s:5173"
+      }
+    },
+    {
+      "name": "API only",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build: api",
+      "program": "${workspaceFolder}/src/QuizPractice.Api/bin/Debug/net10.0/QuizPractice.Api.dll",
+      "cwd": "${workspaceFolder}/src/QuizPractice.Api",
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:5031"
+      },
+      "console": "internalConsole",
+      // The app runs on plain http://localhost, so no HTTPS development certificate is needed.
+      "checkForDevCert": false,
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "Now listening on: http://localhost:(\\d+)",
+        "uriFormat": "http://localhost:%s/scalar"
+      }
+    }
+  ]
+}
